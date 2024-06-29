@@ -1,1 +1,1 @@
-# malignant-benign-classifier
+# skin-cancer-classifier
