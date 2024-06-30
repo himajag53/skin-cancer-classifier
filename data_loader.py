@@ -72,4 +72,4 @@ def load_data(batch_size=32):
     print("Number of Validation Samples:", len(val_dataset))
     print("Number of Test Samples:", len(test_dataset))
 
-    return train_loader, val_loader, test_loader
+    return train_loader, val_loader, test_loader, train_dataset
