@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import auc, classification_report, confusion_matrix, roc_curve
 
 
 def generate_classification_report(true_labels, predictions, class_names, model_name):
@@ -39,6 +39,40 @@ def generate_classification_report(true_labels, predictions, class_names, model_
     plt.ylabel('True Label')
 
     plt.tight_layout()
+    plt.show()
+
+
+def plot_roc_curve(true_labels, predictions, model_name):
+    """
+    
+    """
+    
+    # compute ROC curve and ROC area for each class
+    fpr, tpr, _ = roc_curve(true_labels, predictions)
+    roc_auc = auc(fpr, tpr)
+    
+    # plot ROC curve
+    plt.figure(figsize=(10, 6))
+    plt.plot(fpr, 
+             tpr, 
+             color='blue', 
+             lw=2, 
+             label=f'ROC curve (area = {roc_auc:.2f})')
+    
+    plt.plot([0, 1], 
+             [0, 1], 
+             color='navy', 
+             lw=2, 
+             linestyle='--')
+    
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+
+    plt.title(f'ROC: {model_name}')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+
+    plt.legend(loc="lower right")
     plt.show()
 
 
