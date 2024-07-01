@@ -1,12 +1,18 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 def generate_classification_report(true_labels, predictions, class_names, model_name):
     """
-    
+    Generates and displays the classification report and confusion matrix for a classification model.
+
+    Args:
+        true_labels (array-like): True labels of the data.
+        predictions (array-like): Predicted labels from the model.
+        class_names (list): List of class names.
+        model_name (str): Name of the model for which the report is generated.
     """
     
     # classification report
@@ -38,19 +44,50 @@ def generate_classification_report(true_labels, predictions, class_names, model_
 
 def plot_losses(train_losses, val_losses):
     """
-    
+    Plots training and validation losses all models in single graph.
+
+    Args:
+        train_losses (dict): Dictionary where keys are model names and values are lists
+        of training losses across epochs.
+        val_losses (dict): Dictionary where keys are model names and values are lists
+        of validation losses across epochs.
     """
+    plt.figure(figsize=(10, 6))
 
-    plt.figure(figsize=(10, 5))
+    for model_name, train_loss in train_losses.items():
+        plt.plot(train_loss, label=f'Train Loss - {model_name}')
 
-    plt.plot(train_losses[0], label='Train Loss - ResNet18')
-    plt.plot(val_losses[0], label='Val Loss - ResNet18')
-    plt.plot(train_losses[1], label='Train Loss - UNet')
-    plt.plot(val_losses[1], label='Val Loss - UNet')
+    for model_name, val_loss in val_losses.items():
+        plt.plot(val_loss, label=f'Val Loss - {model_name}')
 
     plt.title(f'Training and Validation Losses')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
+
+    plt.legend()
+    plt.show()
+
+
+def plot_train_accuracies(train_accuracies):
+    """
+    Plots training accuracies for all models in single graph.
+    
+    Args:
+        train_accuracies (dict): Dictionary where keys are model names and values are lists of training accuracies.
+    """
+    plt.figure(figsize=(10, 6))
+
+    for model_name, train_accuracies in train_accuracies.items():
+        epochs = range(1, len(train_accuracies) + 1)
+        plt.plot(epochs, 
+                 train_accuracies, 
+                 marker='o', 
+                 linestyle='-', 
+                 label=model_name)
+
+    plt.title('Training Accuracies')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
 
     plt.legend()
     plt.show()

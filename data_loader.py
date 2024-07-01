@@ -1,4 +1,3 @@
-import torch
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 
@@ -53,17 +52,17 @@ def load_data(batch_size=32):
     # create data loaders for training, validation, and test datasets
     train_loader = DataLoader(
         train_dataset, 
-        batch_size=32, 
+        batch_size=batch_size, 
         shuffle=True)
 
     val_loader = DataLoader(
         val_dataset, 
-        batch_size=32, 
+        batch_size=batch_size, 
         shuffle=False)
 
     test_loader = DataLoader(
         test_dataset, 
-        batch_size=32, 
+        batch_size=batch_size, 
         shuffle=False)
     
     # class verification
@@ -72,4 +71,4 @@ def load_data(batch_size=32):
     print("Number of Validation Samples:", len(val_dataset))
     print("Number of Test Samples:", len(test_dataset))
 
-    return train_loader, val_loader, test_loader, train_dataset
+    return train_loader, val_loader, test_loader, train_dataset.dataset.classes
