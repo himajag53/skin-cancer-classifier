@@ -4,7 +4,7 @@ from sklearn.metrics import accuracy_score
 from tqdm import tqdm
 
 
-def train_model(model, train_loader, criterion, optimizer, device, num_epochs=5):
+def train_model(model, train_loader, val_loader, criterion, optimizer, device, num_epochs=5):
     """
     Trains a deep learning model on the training dataset.
 
@@ -67,7 +67,9 @@ def train_model(model, train_loader, criterion, optimizer, device, num_epochs=5)
         epoch_accuracy = correct_predictions / total_predictions
         train_accuracies.append(epoch_accuracy)
 
-    return train_losses, train_accuracies
+        val_losses, val_accuracies = validate_model(model, val_loader, criterion, device)
+
+    return train_losses, train_accuracies, val_losses, val_accuracies
 
 
 def validate_model(model, val_loader, criterion, device):
@@ -87,22 +89,34 @@ def validate_model(model, val_loader, criterion, device):
 
     # set model to evaluation mode
     model.eval()
+    
     running_val_loss = 0.0
+    correct_val_predictions = 0
+    total_val_predictions = 0
     val_losses = []
+    val_accuracies = []
 
     # disable gradient computation for validation
     with torch.no_grad():
         for inputs, labels in val_loader:
             inputs, labels = inputs.to(device), labels.to(device)
             outputs = model(inputs)
+
             loss = criterion(outputs, labels)
             running_val_loss += loss.item() * inputs.size(0)
+
+            _, predicted = torch.max(outputs, 1)
+            correct_val_predictions += torch.sum(predicted == labels).item()
+            total_val_predictions += labels.size(0)
 
     # average validation loss for epoch
     epoch_val_loss = running_val_loss / len(val_loader.dataset)
     val_losses.append(epoch_val_loss)
 
-    return val_losses
+    epoch_val_accuracy = correct_val_predictions / total_val_predictions
+    val_accuracies.append(epoch_val_accuracy)
+
+    return val_losses, val_accuracies
 
 
 def test_model(model, test_loader, criterion, device):

@@ -25,14 +25,14 @@ def generate_classification_report(true_labels, predictions, class_names, model_
     print(cm)
 
     # plot confusion matrix
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(6, 4))
 
-    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.GnBu)
     plt.colorbar()
 
     tick_marks = np.arange(len(class_names))
-    plt.xticks(tick_marks, class_names, rotation=45)
-    plt.yticks(tick_marks, class_names)
+    plt.xticks(tick_marks, class_names)
+    plt.yticks(tick_marks, class_names, rotation=90)
 
     plt.title(f'Confusion Matrix: {model_name}')
     plt.xlabel('Predicted Label')
@@ -52,23 +52,21 @@ def plot_roc_curve(true_labels, predictions, model_name):
     roc_auc = auc(fpr, tpr)
     
     # plot ROC curve
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(6, 4))
     plt.plot(fpr, 
              tpr, 
-             color='blue', 
-             lw=2, 
-             label=f'ROC curve (area = {roc_auc:.2f})')
+             color='blue',
+             label=f'ROC Curve (area = {roc_auc:.2f})')
     
     plt.plot([0, 1], 
              [0, 1], 
-             color='navy', 
-             lw=2, 
+             color='turquoise',
              linestyle='--')
     
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
 
-    plt.title(f'ROC: {model_name}')
+    plt.title(f'{model_name}')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
 
@@ -76,52 +74,65 @@ def plot_roc_curve(true_labels, predictions, model_name):
     plt.show()
 
 
-def plot_losses(train_losses, val_losses):
+def plot_train_loss_accuracy(epochs, train_losses, train_accuracies, val_losses, val_accuracies):
     """
-    Plots training and validation losses all models in single graph.
-
-    Args:
-        train_losses (dict): Dictionary where keys are model names and values are lists
-        of training losses across epochs.
-        val_losses (dict): Dictionary where keys are model names and values are lists
-        of validation losses across epochs.
-    """
-    plt.figure(figsize=(10, 6))
-
-    for model_name, train_loss in train_losses.items():
-        plt.plot(train_loss, label=f'Train Loss - {model_name}')
-
-    for model_name, val_loss in val_losses.items():
-        plt.plot(val_loss, label=f'Val Loss - {model_name}')
-
-    plt.title(f'Training and Validation Losses')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-
-    plt.legend()
-    plt.show()
-
-
-def plot_train_accuracies(train_accuracies):
-    """
-    Plots training accuracies for all models in single graph.
     
-    Args:
-        train_accuracies (dict): Dictionary where keys are model names and values are lists of training accuracies.
     """
-    plt.figure(figsize=(10, 6))
 
-    for model_name, train_accuracies in train_accuracies.items():
-        epochs = range(1, len(train_accuracies) + 1)
-        plt.plot(epochs, 
-                 train_accuracies, 
-                 marker='o', 
-                 linestyle='-', 
-                 label=model_name)
+    # set up subplots
+    fig, (ax1, ax2) = plt.subplots(2)
 
-    plt.title('Training Accuracies')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
+    # set height
+    plt.figure(figsize=(6, 4))
 
-    plt.legend()
+    x = [i for i in range(1, epochs + 1)]
+    colors = ['blue', 'turquoise']
+
+    # add plot title
+    ax1.set(title = "Accuracy and Loss Comparison")
+
+    # plot accuracy
+    ax1.set(ylabel = "Accuracy")
+    # customize axes values
+    ax1.set_xticks([])
+    ax1.set_ylim([0, 1.0])
+
+    # plot
+    for i, (model_name, train_accuracy) in enumerate(train_accuracies.items()):
+        ax1.plot(x, 
+                 train_accuracy, 
+                 color=colors[i],
+                 linestyle = '-', 
+                 label=f'Train: {model_name}')
+    
+    for i, (model_name, val_accuracy) in enumerate(val_accuracies.items()):
+        ax1.plot(x, 
+                 val_accuracy, 
+                 color=colors[i],
+                 linestyle = '--', 
+                 label=f'Val: {model_name}')
+        
+    ax1.legend(fontsize = "8", ncol = 2, loc="lower center")
+
+    # plot loss
+    ax2.set(ylabel = "Loss")
+    # customize axes values
+    ax2.set_xticks(x)
+    ax2.set_ylim([0, 1.0])
+
+    # plot
+    for i, (model_name, train_loss) in enumerate(train_losses.items()):
+        ax2.plot(x, 
+                 train_loss, 
+                 color=colors[i],
+                 linestyle = '-', 
+                 label=f'Train: {model_name}')
+    
+    for i, (model_name, val_loss) in enumerate(val_losses.items()):
+        ax2.plot(x, 
+                 val_loss,
+                 color=colors[i],
+                 linestyle = '--', 
+                 label=f'Val: {model_name}')
+    
     plt.show()

@@ -1,8 +1,50 @@
+import numpy as np
+
+from matplotlib import pyplot as plt
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 
 TRAIN_PATH = 'images/train'
 TEST_PATH = 'images/test'
+
+def plot_class_distributions(train_dataset, val_dataset, test_dataset):
+    """
+    Plot the class distributions for the given datasets.
+
+    Args:
+
+    """
+    train_labels = [sample[1] for sample in train_dataset]
+    val_labels = [sample[1] for sample in val_dataset]
+    test_labels = [sample[1] for sample in test_dataset]
+
+    all_labels = [train_labels, val_labels, test_labels]
+    label_names = ['Train', 'Validation', 'Test']
+    class_names = [train_dataset.dataset.classes[i] for i in range(len(train_dataset.dataset.classes))]
+
+    plt.figure(figsize=(6, 4))
+
+    bar_width = 0.1
+    colors = ['turquoise', 'blue', 'deepskyblue']
+    indices = np.arange(len(class_names))
+    
+    for i, (labels, name) in enumerate(zip(all_labels, label_names)):
+        unique_labels, counts = np.unique(labels, return_counts=True)
+        plt.bar(indices + i * bar_width, 
+                counts, 
+                bar_width, 
+                color=colors[i],
+                label=name)
+    
+    # center xticks
+    plt.xticks(indices + bar_width, class_names)
+
+    plt.title('Class Distribution in Training, Validation, and Test Sets')
+    plt.xlabel('Classes')
+    plt.ylabel('Frequency')
+    
+    plt.legend(fontsize = "8")
+    plt.show()
 
 def load_data(batch_size=32):
     """
@@ -70,5 +112,7 @@ def load_data(batch_size=32):
     print("Number of Training Samples:", len(train_dataset))
     print("Number of Validation Samples:", len(val_dataset))
     print("Number of Test Samples:", len(test_dataset))
+
+    plot_class_distributions(train_dataset, val_dataset, test_dataset)
 
     return train_loader, val_loader, test_loader, train_dataset.dataset.classes
