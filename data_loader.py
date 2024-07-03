@@ -22,9 +22,9 @@ def plot_class_distributions(train_dataset, val_dataset, test_dataset):
     label_names = ['Train', 'Validation', 'Test']
     class_names = [train_dataset.dataset.classes[i] for i in range(len(train_dataset.dataset.classes))]
 
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=(4, 4))
 
-    bar_width = 0.1
+    bar_width = 0.2
     colors = ['turquoise', 'blue', 'deepskyblue']
     indices = np.arange(len(class_names))
     
@@ -43,7 +43,7 @@ def plot_class_distributions(train_dataset, val_dataset, test_dataset):
     plt.xlabel('Classes')
     plt.ylabel('Frequency')
     
-    plt.legend(fontsize = "8")
+    plt.legend(fontsize = "8", ncols=3)
     plt.show()
 
 def load_data(batch_size=32):

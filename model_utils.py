@@ -24,6 +24,8 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
     model.to(device)
     train_losses = []
     train_accuracies = []
+    val_losses = []
+    val_accuracies = []
 
     for epoch in range(num_epochs):
 
@@ -60,14 +62,18 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
 
             progress_bar.set_postfix(loss=f'{running_loss / len(train_loader.dataset):.4f}')
         
-        # average training loss for epoch
+        # average training loss for epoch and save
         epoch_loss = running_loss / len(train_loader.dataset)
         train_losses.append(epoch_loss)
 
+        # compute accuracy and save
         epoch_accuracy = correct_predictions / total_predictions
         train_accuracies.append(epoch_accuracy)
 
-        val_losses, val_accuracies = validate_model(model, val_loader, criterion, device)
+        # validate model and save losses and accuracies
+        val_loss, val_accuracy = validate_model(model, val_loader, criterion, device)
+        val_losses.append(val_loss)
+        val_accuracies.append(val_accuracy)
 
     return train_losses, train_accuracies, val_losses, val_accuracies
 
@@ -84,7 +90,6 @@ def validate_model(model, val_loader, criterion, device):
 
     Returns:
         val_losses (list): List containing average validation loss for the epoch.
-
     """
 
     # set model to evaluation mode
@@ -93,8 +98,6 @@ def validate_model(model, val_loader, criterion, device):
     running_val_loss = 0.0
     correct_val_predictions = 0
     total_val_predictions = 0
-    val_losses = []
-    val_accuracies = []
 
     # disable gradient computation for validation
     with torch.no_grad():
@@ -111,12 +114,10 @@ def validate_model(model, val_loader, criterion, device):
 
     # average validation loss for epoch
     epoch_val_loss = running_val_loss / len(val_loader.dataset)
-    val_losses.append(epoch_val_loss)
-
     epoch_val_accuracy = correct_val_predictions / total_val_predictions
-    val_accuracies.append(epoch_val_accuracy)
 
-    return val_losses, val_accuracies
+    print(f"Validation Loss: {epoch_val_loss}, Accuracy: {epoch_val_accuracy}")
+    return epoch_val_loss, epoch_val_accuracy
 
 
 def test_model(model, test_loader, criterion, device):
@@ -141,8 +142,6 @@ def test_model(model, test_loader, criterion, device):
     model.eval()
 
     # initialize
-    all_preds = []
-    all_labels = []
     test_loss = 0.0
     predictions = []
     true_labels = []
