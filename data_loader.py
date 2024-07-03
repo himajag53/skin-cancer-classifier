@@ -12,7 +12,9 @@ def plot_class_distributions(train_dataset, val_dataset, test_dataset):
     Plot the class distributions for the given datasets.
 
     Args:
-
+        train_dataset (Dataset): Training dataset object.
+        val_dataset (Dataset): Validation dataset object.
+        test_dataset (Dataset): Test dataset object.
     """
     train_labels = [sample[1] for sample in train_dataset]
     val_labels = [sample[1] for sample in val_dataset]
@@ -51,14 +53,12 @@ def load_data(batch_size=32):
     Load training and test datasets using ImageFolder and apply transformations.
 
     Args:
-    - train_dir (str): Path to the training dataset directory.
-    - test_dir (str): Path to the test dataset directory.
-    - batch_size (int): Batch size for DataLoader (default: 32).
+        batch_size (int): Batch size for DataLoader.
 
     Returns:
-    - train_loader (DataLoader): DataLoader for training dataset.
-    - val_loader (DataLoader): DataLoader for validation dataset.
-    - test_loader (DataLoader): DataLoader for test dataset.
+        train_loader (DataLoader): DataLoader for training dataset.
+        val_loader (DataLoader): DataLoader for validation dataset.
+        test_loader (DataLoader): DataLoader for test dataset.
     """
 
     # define transformations for training and test data
