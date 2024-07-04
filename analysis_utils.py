@@ -6,7 +6,7 @@ from sklearn.metrics import auc, classification_report, confusion_matrix, roc_cu
 
 def generate_classification_report(true_labels, predictions, class_names, model_name):
     """
-    Generates and displays the classification report and confusion matrix for a classification model.
+    Generates and displays the classification report and confusion matrix for the given classification model.
 
     Args:
         true_labels (list): True labels of the data.
@@ -48,7 +48,7 @@ def generate_classification_report(true_labels, predictions, class_names, model_
 
 def plot_roc_curve(true_labels, predictions, model_name):
     """
-    Plot the Receiver Operating Characteristic (ROC) curve for the given model.
+    Plot the Receiver Operating Characteristic (ROC) curve for the given classification model.
 
     Args:
         true_labels (list): True labels of the data.

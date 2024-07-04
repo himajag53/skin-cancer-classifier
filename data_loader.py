@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 
+
 TRAIN_PATH = 'images/train'
 TEST_PATH = 'images/test'
 
@@ -47,6 +48,7 @@ def plot_class_distributions(train_dataset, val_dataset, test_dataset):
     
     plt.legend(fontsize = "8", ncols=3)
     plt.show()
+
 
 def load_data(batch_size=32):
     """

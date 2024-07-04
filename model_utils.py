@@ -10,11 +10,12 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
 
     Args:
         model (torch.nn.Module): Deep learning model to be trained.
-        train_loader (torch.utils.data.DataLoader): DataLoader providing batches of training data.
+        train_loader (DataLoader): DataLoader providing batches of training data.
+        val_loader (DataLoader): DataLoader providing batches of validation data.
         criterion (torch.nn.Module): Loss function used for training.
         optimizer (torch.optim.Optimizer): Optimization algorithm for updating model parameters.
         device (torch.device): Device (CPU or GPU) on which to perform computations.
-        num_epochs (int, optional): Number of training epochs (default is 5).
+        num_epochs (int, optional): Number of training epochs, default is 5.
 
     Returns:
         train_losses (list): List of training losses computed for each epoch.
@@ -84,7 +85,7 @@ def validate_model(model, val_loader, criterion, device):
 
     Args:
         model (torch.nn.Module): Deep learning model to be validated.
-        val_loader (torch.utils.data.DataLoader): DataLoader providing batches of validation data.
+        val_loader (DataLoader): DataLoader providing batches of validation data.
         criterion (torch.nn.Module): Loss function used for validation.
         device (torch.device): Device (CPU or GPU) on which to perform computations.
 
@@ -126,7 +127,7 @@ def test_model(model, test_loader, criterion, device):
 
     Args:
         model (torch.nn.Module): Trained deep learning model to be tested.
-        test_loader (torch.utils.data.DataLoader): DataLoader providing batches of test data.
+        test_loader (DataLoader): DataLoader providing batches of test data.
         criterion (torch.nn.Module): Loss function used for testing.
         device (torch.device): Device (CPU or GPU) on which to perform computations.
 

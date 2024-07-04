@@ -16,6 +16,7 @@ def gaussian_blur(image, kernel_size=(5, 5)):
     blurred_image = cv2.GaussianBlur(image, kernel_size, 0)
     return blurred_image
 
+
 def histogram_equalization(image):
     """
     Applies histogram equalization to the input image to enhance contrast.
@@ -41,6 +42,7 @@ def histogram_equalization(image):
     
     return equalized_image
 
+
 def edge_detection(image, low_threshold=50, high_threshold=150):
     """
     Applies Canny edge detection to the input image.
@@ -55,6 +57,7 @@ def edge_detection(image, low_threshold=50, high_threshold=150):
     """
     edges = cv2.Canny(image, low_threshold, high_threshold)
     return edges
+
 
 def display_image(image, title="Image"):
     """
