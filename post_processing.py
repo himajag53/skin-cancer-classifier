@@ -41,6 +41,21 @@ def histogram_equalization(image):
     
     return equalized_image
 
+def edge_detection(image, low_threshold=50, high_threshold=150):
+    """
+    Applies Canny edge detection to the input image.
+
+    Args:
+        image (numpy.ndarray): Input image to be processed.
+        low_threshold (int): Lower bound for thresholding.
+        high_threshold (int): Upper bound for thresholding.
+
+    Returns:
+        numpy.ndarray: Image with edges detected.
+    """
+    edges = cv2.Canny(image, low_threshold, high_threshold)
+    return edges
+
 def display_image(image, title="Image"):
     """
     Displays an image using matplotlib.
