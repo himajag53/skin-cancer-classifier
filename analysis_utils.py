@@ -42,7 +42,7 @@ def generate_classification_report(true_labels, predictions, class_names, model_
 
     plt.tight_layout()
 
-    plt.savefig(f'classification_{model_name}.jpg')
+    plt.savefig(f'plots/classification_{model_name}.jpg')
     plt.show()
 
 
@@ -84,7 +84,7 @@ def plot_roc_curve(true_labels, predictions, model_name):
     
     plt.legend(loc="lower right")
        
-    plt.savefig(f'roc_{model_name}.jpg')
+    plt.savefig(f'plots/roc_{model_name}.jpg')
     plt.show()
 
 
@@ -153,5 +153,5 @@ def plot_train_loss_accuracy(epochs, train_losses, train_accuracies, val_losses,
                  linestyle = '--', 
                  label=f'Val: {model_name}')
     
-    plt.savefig('accuracies_losses.jpg')
+    plt.savefig('plots/accuracies_losses.jpg')
     plt.show()
