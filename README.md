@@ -1,5 +1,5 @@
 # Skin Cancer Classifier
-# Author: Himaja R. Ginkala
+## Author: Himaja R. Ginkala
 
 The skin-cancer-classifier project compares the performance of ResNet-18 and UNet on classifying benign versus malignant skin cancer images.
 
